@@ -642,7 +642,17 @@ var _ = DescribeSanity("Node Service", func(sc *SanityContext) {
 					},
 				},
 				Secrets:    sc.Secrets.CreateVolumeSecret,
-				Parameters: sc.Config.TestVolumeParameters,
+				Parameters: map[string]string{
+					"engine": "KV",
+					"ref": "default/sanity-app",
+					"path": "kv",
+					"secret": "my-key",
+					"csi.storage.k8s.io/pod.name": "testpod",
+					"csi.storage.k8s.io/pod.namespace": "default",
+					"csi.storage.k8s.io/pod.uid": "pod-uid",
+					"csi.storage.k8s.io/serviceAccount.name": "sanity-service",
+
+				},
 			},
 		)
 		Expect(err).NotTo(HaveOccurred())
